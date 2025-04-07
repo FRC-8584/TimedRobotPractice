@@ -3,10 +3,10 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -14,19 +14,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * this project, you must also update the Main.java file in the project.
  */
 public class Robot extends TimedRobot {
-  private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "My Auto";
-  private String m_autoSelected;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  private Joystick joystick;
+  private SparkMax left_front_motor;
+  private SparkMax left_back_motor;
+  private SparkMax right_front_motor;
+  private SparkMax right_back_motor;
 
-  /**
-   * This function is run when the robot is first started up and should be used for any
-   * initialization code.
-   */
   public Robot() {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
+    joystick = new Joystick(0);
+    left_front_motor  = new SparkMax(1, MotorType.kBrushed);
+    right_front_motor = new SparkMax(2, MotorType.kBrushed);
+    right_back_motor  = new SparkMax(3, MotorType.kBrushed);
+    left_back_motor   = new SparkMax(4, MotorType.kBrushed);
   }
 
   /**
@@ -51,23 +50,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autoSelected = m_chooser.getSelected();
-    // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
-    System.out.println("Auto selected: " + m_autoSelected);
   }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
-    }
+    
   }
 
   /** This function is called once when teleop is enabled. */
@@ -76,7 +64,14 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    double x, y, turn ;
+    x = joystick.getX();
+    y = -joystick.getY();
+    turn = joystick.getRawAxis(4);
+
+    move(x, y, turn);
+  }
 
   /** This function is called once when the robot is disabled. */
   @Override
@@ -101,4 +96,15 @@ public class Robot extends TimedRobot {
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {}
+
+  private void move(double x, double y, double turn) {
+    double LF_power = Tool.bounding(x+y+turn, 1.0, -1.0);
+    left_front_motor.set(LF_power);
+    double RF_power = Tool.bounding(y-x-turn, 1.0, -1.0);
+    right_front_motor.set(RF_power);
+    double RB_power = Tool.bounding(x+y-turn, 1.0, -1.0); 
+    right_back_motor.set(RB_power);
+    double LB_power = Tool.bounding(y-x+turn, 1.0, -1.0);
+    left_back_motor.set(LB_power);
+  }
 }
