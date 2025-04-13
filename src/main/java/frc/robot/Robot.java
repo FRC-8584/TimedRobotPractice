@@ -78,6 +78,9 @@ public class Robot extends TimedRobot {
     if(joystick.getRawButton(5)){
       CoralIntakeMotor.set(0.5);
     }
+    else{
+      CoralIntakeMotor.set(0);
+    }
   }
 
   /** This function is called once when the robot is disabled. */
