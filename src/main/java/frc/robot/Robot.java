@@ -23,6 +23,7 @@ public class Robot extends TimedRobot {
   private SparkMax right_front_motor;
   private SparkMax right_back_motor;
   private SparkMax CoralIntakeMotor;
+  private final Elevator elevator;
 
   public Robot() {
     joystick = new Joystick(0);
@@ -35,6 +36,8 @@ public class Robot extends TimedRobot {
     CoralIntakeMotor = new SparkMax(10, MotorType.kBrushed);
 
     CoralIntakeMotor.configure(Tool.setConfig(true), ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+    elevator = new Elevator();
   }
 
   /**
@@ -86,6 +89,19 @@ public class Robot extends TimedRobot {
     else{
       CoralIntakeMotor.set(0);
     }
+
+
+    if(joystick.getRawButton(4)){
+      elevator.SetPoweer(0.5);
+    }
+    else if(joystick.getRawButton(1)){
+      elevator.SetPoweer(-0.5);
+    }
+    else {
+      elevator.SetPoweer(0);
+    }
+
+    elevator.SetPoweer(joystick.getPOV());
   }
 
   /** This function is called once when the robot is disabled. */
