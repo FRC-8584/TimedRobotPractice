@@ -20,4 +20,7 @@ public class Tool {
             return a ; 
         }       
     }
+    static boolean IsInRange(double value, double Max, double min){
+        return (value>=min&&value<=Max) ? true : false;
+    }
 }
