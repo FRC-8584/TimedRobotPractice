@@ -1,5 +1,9 @@
 package frc.robot;
 
+
+
+import com.revrobotics.spark.config.SparkMaxConfig;
+
 public class Tool {
     static double deadband ( double a){
         if (Math.abs(a) < 0.1){
@@ -22,5 +26,11 @@ public class Tool {
     }
     static boolean IsInRange(double value, double Max, double min){
         return (value>=min&&value<=Max) ? true : false;
+    }
+    static SparkMaxConfig setConfig(boolean invert) {
+        SparkMaxConfig theConfig;
+        theConfig = new SparkMaxConfig();
+        theConfig.inverted(invert);
+        return theConfig;
     }
 }

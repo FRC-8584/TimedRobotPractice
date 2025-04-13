@@ -4,6 +4,8 @@
 
 package frc.robot;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -29,7 +31,10 @@ public class Robot extends TimedRobot {
     right_back_motor  = new SparkMax(3, MotorType.kBrushed);
     left_back_motor   = new SparkMax(4, MotorType.kBrushed);
 
+
     CoralIntakeMotor = new SparkMax(10, MotorType.kBrushed);
+
+    CoralIntakeMotor.configure(Tool.setConfig(true), ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   /**
