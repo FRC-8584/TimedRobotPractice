@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
     right_back_motor  = new SparkMax(3, MotorType.kBrushed);
     left_back_motor   = new SparkMax(4, MotorType.kBrushed);
 
-    CoralIntakeMotor = new SparkMax(11, MotorType.kBrushed);
+    CoralIntakeMotor = new SparkMax(10, MotorType.kBrushed);
   }
 
   /**
