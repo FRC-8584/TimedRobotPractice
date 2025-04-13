@@ -8,6 +8,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 
+
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
  * the TimedRobot documentation. If you change the name of this class or the package after creating
@@ -19,6 +20,7 @@ public class Robot extends TimedRobot {
   private SparkMax left_back_motor;
   private SparkMax right_front_motor;
   private SparkMax right_back_motor;
+  private SparkMax CoralIntakeMotor;
 
   public Robot() {
     joystick = new Joystick(0);
@@ -26,6 +28,8 @@ public class Robot extends TimedRobot {
     right_front_motor = new SparkMax(2, MotorType.kBrushed);
     right_back_motor  = new SparkMax(3, MotorType.kBrushed);
     left_back_motor   = new SparkMax(4, MotorType.kBrushed);
+
+    CoralIntakeMotor = new SparkMax(11, MotorType.kBrushed);
   }
 
   /**
@@ -69,8 +73,11 @@ public class Robot extends TimedRobot {
     x = joystick.getX();
     y = -joystick.getY();
     turn = joystick.getRawAxis(4);
-
     move(x, y, turn);
+
+    if(joystick.getRawButton(5)){
+      CoralIntakeMotor.set(0.5);
+    }
   }
 
   /** This function is called once when the robot is disabled. */
