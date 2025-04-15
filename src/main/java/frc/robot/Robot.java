@@ -85,6 +85,7 @@ public class Robot extends TimedRobot {
     y = -joystick.getY();
     turn = joystick.getRawAxis(4);
     move(x, y, turn);
+    elevator.SetPosition();
 
     if(joystick.getRawButton(5)){
       CoralIntakeMotor.set(0.5);
@@ -92,7 +93,7 @@ public class Robot extends TimedRobot {
     else{
       CoralIntakeMotor.set(0);
     }
-
+    
     if(joystick.getPOV() > 0){
       ClimberMotor.set(0.8);
     }
@@ -105,16 +106,16 @@ public class Robot extends TimedRobot {
 
 
     if(joystick.getRawButton(1)){
-      elevator.SetPosition(0.0);
+      elevator.SetTheHeight(0.0);
     }
     else if(joystick.getRawButton(2)){
-      elevator.SetPoweer(20.0);
+      elevator.SetTheHeight(20.0);
     }
     else if(joystick.getRawButton(3)){
-      elevator.SetPosition(60);
+      elevator.SetTheHeight(60);
     }
     else if(joystick.getRawButton(4)){
-      elevator.SetPosition(45.0);
+      elevator.SetTheHeight(45.0);
     }
   }
 
