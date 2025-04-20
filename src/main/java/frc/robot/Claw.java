@@ -1,0 +1,21 @@
+package frc.robot;
+
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+
+public class Claw {
+    private SparkMax ShaftMotor, ClawMotor;
+    public Claw() {
+        ShaftMotor = new SparkMax(7, MotorType.kBrushless);
+        ClawMotor  = new SparkMax(8, MotorType.kBrushless);
+    }
+
+    public void SetPosition(double angle) {
+        ShaftMotor.getClosedLoopController().setReference(angle, ControlType.kPosition);
+    }
+
+    public void SetPower(double power) {
+        ClawMotor.set(power);
+    }
+}

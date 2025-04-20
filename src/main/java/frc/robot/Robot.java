@@ -84,16 +84,22 @@ public class Robot extends TimedRobot {
     x = joystick.getX();
     y = -joystick.getY();
     turn = joystick.getRawAxis(4);
+    
+    //regular drive
     move(x, y, turn);
+
+    //ELevator set position
     elevator.SetPosition();
 
+    //Intake control
     if(joystick.getRawButton(5)){
       CoralIntakeMotor.set(0.5);
     }
     else{
       CoralIntakeMotor.set(0);
     }
-    
+
+    //Climber control
     if(joystick.getPOV() > 0){
       ClimberMotor.set(0.8);
     }
@@ -104,7 +110,7 @@ public class Robot extends TimedRobot {
       ClimberMotor.set(0);
     }
 
-
+    //Elevator control
     if(joystick.getRawButton(1)){
       elevator.SetTheHeight(0.0);
     }
@@ -117,6 +123,7 @@ public class Robot extends TimedRobot {
     else if(joystick.getRawButton(4)){
       elevator.SetTheHeight(45.0);
     }
+
   }
 
   /** This function is called once when the robot is disabled. */
@@ -144,13 +151,15 @@ public class Robot extends TimedRobot {
   public void simulationPeriodic() {}
 
   private void move(double x, double y, double turn) {
+    
     double LF_power = Tool.bounding(x+y+turn, 1.0, -1.0);
-    left_front_motor.set(LF_power);
     double RF_power = Tool.bounding(y-x-turn, 1.0, -1.0);
-    right_front_motor.set(RF_power);
     double RB_power = Tool.bounding(x+y-turn, 1.0, -1.0); 
-    right_back_motor.set(RB_power);
     double LB_power = Tool.bounding(y-x+turn, 1.0, -1.0);
+
+    left_front_motor.set(-LF_power);
+    right_front_motor.set(RF_power);
+    right_back_motor.set(-RB_power);
     left_back_motor.set(LB_power);
   }
 }

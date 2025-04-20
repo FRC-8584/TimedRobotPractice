@@ -6,6 +6,8 @@ import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+import frc.robot.Tool.Levels;
+
 public class Elevator {
     private final SparkMax Left;
     private final SparkMax Right;
@@ -13,6 +15,8 @@ public class Elevator {
     private Claw claw;
 
     private final double SafeAngle = 25.0;
+    
+    
 
     Elevator() {
         Left  = new SparkMax(5, MotorType.kBrushless);
@@ -45,4 +49,13 @@ public class Elevator {
     public double GetPosition() {
         return (Left.getEncoder().getPosition()+Right.getEncoder().getPosition())/2.0;
     }
+
+    public void SetLevel(Levels l) {
+        if(l.GetAngle()>=SafeAngle){
+            this.Setpoint(SafeAngle, 0.0);    
+        }        
+        this.SetTheHeight(l.GetHeight());
+        this.Setpoint(l.GetAngle(), 0.8);
+    }
+    
 }
