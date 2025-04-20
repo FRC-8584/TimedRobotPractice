@@ -100,10 +100,10 @@ public class Robot extends TimedRobot {
     }
 
     //Climber control
-    if(joystick.getPOV() > 0){
+    if(joystick.getPOV() == 0){
       ClimberMotor.set(0.8);
     }
-    else if(joystick.getPOV() < 0) {
+    else if(joystick.getPOV() == 180) {
       ClimberMotor.set(-0.8);
     }
     else {

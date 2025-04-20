@@ -1,8 +1,6 @@
 package frc.robot;
 
 
-import java.util.Optional;
-
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 public class Tool {
@@ -25,16 +23,20 @@ public class Tool {
             return a ; 
         }       
     }
+
     static boolean IsInRange(double value, double Max, double min){
         return (value>=min&&value<=Max) ? true : false;
     }
+
     static SparkMaxConfig setConfig(boolean invert) {
         SparkMaxConfig theConfig;
         theConfig = new SparkMaxConfig();
         theConfig.inverted(invert);
         return theConfig;
     }
+
     public static enum Levels{
+
         L1 (0.0, 0.0),
         L2 (25.0,15.0),
         L3 (45.0,15.0),
@@ -45,8 +47,7 @@ public class Tool {
         
         private Levels(double ElevatorHeight, double ClawAngle) {
             this.ElevatorHeight = ElevatorHeight;
-            this.ClawAngle = ClawAngle;
-            
+            this.ClawAngle = ClawAngle;    
         }
 
         public double GetHeight() {
@@ -56,5 +57,7 @@ public class Tool {
         public double GetAngle() {
             return this.ClawAngle;
         }
+
     }
+
 }
