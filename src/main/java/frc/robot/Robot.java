@@ -20,7 +20,11 @@ public class Robot extends TimedRobot {
   private SparkMax left_back_motor;
   private SparkMax right_front_motor;
   private SparkMax right_back_motor;
+  private SparkMax climbermotor;
   private SparkMax CoralIntakeMotor;
+  private SparkMax clawmotor;
+  
+
 
   public Robot() {
     joystick = new Joystick(0);
@@ -28,8 +32,9 @@ public class Robot extends TimedRobot {
     right_front_motor = new SparkMax(2, MotorType.kBrushed);
     right_back_motor  = new SparkMax(3, MotorType.kBrushed);
     left_back_motor   = new SparkMax(4, MotorType.kBrushed);
-
+    climbermotor = new SparkMax(7, MotorType.kBrushed); 
     CoralIntakeMotor = new SparkMax(10, MotorType.kBrushed);
+    clawmotor = new SparkMax(5, MotorType.kBrushed);
   }
 
   /**
@@ -75,6 +80,17 @@ public class Robot extends TimedRobot {
     turn = joystick.getRawAxis(4);
     move(x, y, turn);
 
+    double pov = joystick.getPOV();
+    if(pov==0){
+      climbermotor.set(0.5);
+    }
+    else if(pov==180){
+      climbermotor.set(-0.5);
+    }
+    else{
+      climbermotor.set(0);
+
+    }
     if(joystick.getRawButton(5)){
       CoralIntakeMotor.set(0.5);
     }
@@ -117,4 +133,5 @@ public class Robot extends TimedRobot {
     double LB_power = Tool.bounding(y-x+turn, 1.0, -1.0);
     left_back_motor.set(LB_power);
   }
+
 }
