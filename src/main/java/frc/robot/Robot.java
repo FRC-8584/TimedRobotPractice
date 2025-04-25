@@ -23,7 +23,6 @@ public class Robot extends TimedRobot {
   private SparkMax climbermotor;
   private SparkMax CoralIntakeMotor;
   private SparkMax clawmotor;
-  
 
 
   public Robot() {
@@ -89,7 +88,6 @@ public class Robot extends TimedRobot {
     }
     else{
       climbermotor.set(0);
-
     }
     if(joystick.getRawButton(5)){
       CoralIntakeMotor.set(0.5);
@@ -103,11 +101,12 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {}
 
-  /** This function is called periodically when disabled. */
+  
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+  }
 
-  /** This function is called once when test mode is enabled. */
+  
   @Override
   public void testInit() {}
 
