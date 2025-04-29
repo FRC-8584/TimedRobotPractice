@@ -113,6 +113,7 @@ public class Robot extends TimedRobot {
     //Elevator control
     if(joystick.getRawButton(1)){
       elevator.SetTheHeight(0.0);
+
     }
     else if(joystick.getRawButton(2)){
       elevator.SetTheHeight(20.0);

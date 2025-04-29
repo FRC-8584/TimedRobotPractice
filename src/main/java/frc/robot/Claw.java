@@ -18,4 +18,8 @@ public class Claw {
     public void SetPower(double power) {
         ClawMotor.set(power);
     }
+
+    public double GetPosition() {
+        return this.ShaftMotor.getEncoder().getPosition();
+    }
 }

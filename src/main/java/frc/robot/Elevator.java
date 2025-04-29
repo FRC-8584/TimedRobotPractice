@@ -11,14 +11,16 @@ import frc.robot.Tool.Levels;
 public class Elevator {
     private final SparkMax Left;
     private final SparkMax Right;
-    private double height = 0.0;
+    private double height;
     private Claw claw;
 
-    private final double SafeAngle = 25.0;
+    private final double SafeAngle  = 25.0;
+    private final double SafeHeight = 90.0;
     
-    
+    private Tool.Levels m_level;
 
     Elevator() {
+
         Left  = new SparkMax(5, MotorType.kBrushless);
         Right = new SparkMax(6, MotorType.kBrushless);
 
@@ -26,36 +28,62 @@ public class Elevator {
 
         Left.configure(Tool.setConfig(true), ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         Right.configure(Tool.setConfig(false), ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+        height = 0.0;
+
     }
     public void SetPoweer(double power) {
+
         Left.set(power);
         Right.set(power);
+
         return;
     }
+
     public void SetTheHeight(double value){
+
         claw.SetPosition(SafeAngle);
         height = value;
+
     }
+
     public void SetPosition() {
-        Left.getClosedLoopController().setReference(this.height, ControlType.kPosition);
-        Right.getClosedLoopController().setReference(this.height, ControlType.kPosition);
+
+        Left.getClosedLoopController() .setReference(this.height / Constants.Stat.Rotation_Rate, ControlType.kPosition);
+        Right.getClosedLoopController().setReference(this.height / Constants.Stat.Rotation_Rate, ControlType.kPosition);
+
     }
-    public void Setpoint(double angle, double power) {
-        this.claw.SetPosition(angle);
-        if(this.GetPosition()==this.height) {
-            this.claw.SetPower(power);
+
+    public void Setpoint() {
+
+        claw.SetPosition(SafeAngle);
+        
+        height = m_level.GetHeight();
+
+        while(!Tool.IsInRange(height -3.0, this.GetPosition(), height +3.0)) {
+            
+            SetPosition();
+
         }
+
+        claw.SetPosition(m_level.GetAngle());
+
     }
+
     public double GetPosition() {
+
         return (Left.getEncoder().getPosition()+Right.getEncoder().getPosition())/2.0;
+
+    }
+    
+    public double GetClawAngle() {
+
+        return this.claw.GetPosition();
+
     }
 
     public void SetLevel(Levels l) {
-        if(l.GetAngle()>=SafeAngle){
-            this.Setpoint(SafeAngle, 0.0);    
-        }        
-        this.SetTheHeight(l.GetHeight());
-        this.Setpoint(l.GetAngle(), 0.8);
+        m_level = l;
     }
     
 }
