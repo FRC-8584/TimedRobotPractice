@@ -3,6 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+import javax.print.attribute.SetOfIntegerSyntax;
+
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.Joystick;
@@ -20,7 +22,9 @@ public class Robot extends TimedRobot {
   private SparkMax left_back_motor;
   private SparkMax right_front_motor;
   private SparkMax right_back_motor;
+  private SparkMax climber_motor;
   private SparkMax CoralIntakeMotor;
+  private Elevator elevator;
 
   public Robot() {
     joystick = new Joystick(0);
@@ -28,7 +32,7 @@ public class Robot extends TimedRobot {
     right_front_motor = new SparkMax(2, MotorType.kBrushed);
     right_back_motor  = new SparkMax(3, MotorType.kBrushed);
     left_back_motor   = new SparkMax(4, MotorType.kBrushed);
-
+    climber_motor = new SparkMax(7, MotorType.kBrushless);
     CoralIntakeMotor = new SparkMax(10, MotorType.kBrushed);
   }
 
@@ -70,10 +74,31 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     double x, y, turn ;
+    double pov = joystick.getPOV();
     x = joystick.getX();
     y = -joystick.getY();
     turn = joystick.getRawAxis(4);
     move(x, y, turn);
+
+    if(pov == 0){
+      climber_motor.set(0.5);
+    }
+    else if(pov == 180){
+      climber_motor.set(-0.5);
+    }
+    else{
+      climber_motor.set(0);
+    }
+
+    if(joystick.getRawButton(7)){
+      elevator.SetHeight(16);
+    }
+    else if(joystick.getRawButton(8)){
+      elevator.SetHeight(37);
+    }
+    else if(joystick.getRawButton(6)){
+      elevator.SetHeight(75);
+    }
 
     if(joystick.getRawButton(5)){
       CoralIntakeMotor.set(0.5);
