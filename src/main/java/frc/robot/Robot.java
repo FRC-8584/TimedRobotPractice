@@ -22,8 +22,7 @@ public class Robot extends TimedRobot {
   private SparkMax right_back_motor;
   private SparkMax climbermotor;
   private SparkMax CoralIntakeMotor;
-  private SparkMax clawmotor;
-
+  private Elevator elevator;
 
   public Robot() {
     joystick = new Joystick(0);
@@ -33,7 +32,7 @@ public class Robot extends TimedRobot {
     left_back_motor   = new SparkMax(4, MotorType.kBrushed);
     climbermotor = new SparkMax(7, MotorType.kBrushed); 
     CoralIntakeMotor = new SparkMax(10, MotorType.kBrushed);
-    clawmotor = new SparkMax(5, MotorType.kBrushed);
+    
   }
 
   /**
@@ -80,6 +79,7 @@ public class Robot extends TimedRobot {
     move(x, y, turn);
 
     double pov = joystick.getPOV();
+    
     if(pov==0){
       climbermotor.set(0.5);
     }
@@ -89,13 +89,24 @@ public class Robot extends TimedRobot {
     else{
       climbermotor.set(0);
     }
+
     if(joystick.getRawButton(5)){
       CoralIntakeMotor.set(0.5);
     }
     else{
       CoralIntakeMotor.set(0);
     }
-  }
+    
+    if(joystick.getRawButton(7)){
+      elevator.SetHeight(16);
+    }
+    else if(joystick.getRawButton(8)){
+      elevator.SetHeight(37);
+    }
+    else if(joystick.getRawButton(6)){
+      elevator.SetHeight(75);
+    }
+}
 
   /** This function is called once when the robot is disabled. */
   @Override
