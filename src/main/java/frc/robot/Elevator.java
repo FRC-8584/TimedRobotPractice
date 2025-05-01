@@ -6,8 +6,12 @@ package frc.robot;
 
 import com.revrobotics.servohub.ServoHub.ResetMode;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+
+import edu.wpi.first.units.measure.Angle;
+import frc.robot.Tool.Levels;
 
 /** Add your docs here. */
 public class Elevator {
@@ -15,7 +19,8 @@ public class Elevator {
     private final SparkMax RightElevatorMotor;
     private final Claw claw;
     private double height=0.0;
-    private double SafeAngle;
+    private double SafeAngle=90;
+    private Tool.Levels TheLevel;
 
     public Elevator(){
       LeftElevatorMotor = new SparkMax(5, MotorType.kBrushless);
@@ -24,11 +29,23 @@ public class Elevator {
       LeftElevatorMotor.configure(Tool.SetConfig(true), com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
       RightElevatorMotor.configure(Tool.SetConfig(false), com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
-    public void SetTheHeight(double height){
-         claw.SetAngle(SafeAngle);
-         this.height=height;
-    }
     public void SetPosition(){
-      
+      LeftElevatorMotor.getClosedLoopController().setReference(height, ControlType.kPosition);
+      RightElevatorMotor.getClosedLoopController().setReference(height, ControlType.kPosition);
     }
-}
+    public double GetTheHeight(){
+      return (LeftElevatorMotor.getEncoder().getPosition()+RightElevatorMotor.getEncoder().getPosition())/2;
+    }
+    public void SetPoint(){
+      height=TheLevel.GetHeight();
+      claw.SetAngle(SafeAngle);
+      if(Tool.IsInRange(GetTheHeight(),TheLevel.GetHeight())==false){
+        SetPosition();
+        claw.SetAngle(TheLevel.GetAngle());
+      }
+    }
+    public void SetLevel(Levels level){
+      this.TheLevel=level;
+    }
+  }
+

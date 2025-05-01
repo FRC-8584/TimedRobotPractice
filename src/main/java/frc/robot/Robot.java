@@ -7,6 +7,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
+import frc.robot.Tool.Levels;
 
 
 /**
@@ -21,7 +22,8 @@ public class Robot extends TimedRobot {
   private SparkMax right_front_motor;
   private SparkMax right_back_motor;
   private SparkMax CoralIntakeMotor;
-
+  private Elevator elevator;
+  
   public Robot() {
     joystick = new Joystick(0);
     left_front_motor  = new SparkMax(1, MotorType.kBrushed);
@@ -30,6 +32,8 @@ public class Robot extends TimedRobot {
     left_back_motor   = new SparkMax(4, MotorType.kBrushed);
 
     CoralIntakeMotor = new SparkMax(10, MotorType.kBrushed);
+
+    elevator = new Elevator();
   }
 
   /**
@@ -81,6 +85,30 @@ public class Robot extends TimedRobot {
     else{
       CoralIntakeMotor.set(0);
     }
+
+    if(joystick.getRawButton(1)){
+      
+    }
+
+
+    elevator.SetPosition();
+
+    if(joystick.getRawButton(1)){
+      elevator.SetLevel(Levels.L1);
+      elevator.SetPoint();
+    }
+    else if(joystick.getRawButton(2)){
+      elevator.SetLevel(Levels.L2);
+      elevator.SetPoint();
+    }
+    else if(joystick.getRawButton(3)){
+      elevator.SetLevel(Levels.L3);
+      elevator.SetPoint();
+    }
+    else if(joystick.getRawButton(4)){
+      elevator.SetLevel(Levels.L4);
+      elevator.SetPoint();
+    }
   }
 
   /** This function is called once when the robot is disabled. */
@@ -117,4 +145,7 @@ public class Robot extends TimedRobot {
     double LB_power = Tool.bounding(y-x+turn, 1.0, -1.0);
     left_back_motor.set(LB_power);
   }
-}
+
+     
+   }
+
