@@ -3,12 +3,16 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
+
+import frc.robot.Constants.ID;
+import frc.robot.Tool.Levels;
 
 
 /**
@@ -28,17 +32,17 @@ public class Robot extends TimedRobot {
   
   public Robot() {
     joystick = new Joystick(0);
-    left_front_motor  = new SparkMax(1, MotorType.kBrushed);
-    right_front_motor = new SparkMax(2, MotorType.kBrushed);
-    right_back_motor  = new SparkMax(3, MotorType.kBrushed);
-    left_back_motor   = new SparkMax(4, MotorType.kBrushed);
+    left_front_motor  = new SparkMax(ID.Mecanum_Left_Front_ID, MotorType.kBrushed);
+    right_front_motor = new SparkMax(ID.Mecanum_Right_Front_ID, MotorType.kBrushed);
+    right_back_motor  = new SparkMax(ID.Mecanum_Right_Rear_ID, MotorType.kBrushed);
+    left_back_motor   = new SparkMax(ID.Mecanum_Left_Rear_ID, MotorType.kBrushed);
 
 
     CoralIntakeMotor = new SparkMax(10, MotorType.kBrushed);
 
     ClimberMotor = new SparkMax(9, MotorType.kBrushless);
 
-    CoralIntakeMotor.configure(Tool.setConfig(true), ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    CoralIntakeMotor.configure(Tool.SetClawConfig(true), ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     elevator = new Elevator();
   }
@@ -83,46 +87,44 @@ public class Robot extends TimedRobot {
     double x, y, turn ;
     x = joystick.getX();
     y = -joystick.getY();
-    turn = joystick.getRawAxis(4);
+    turn = -joystick.getRawAxis(4);
     
     //regular drive
     move(x, y, turn);
 
     //ELevator set position
-    elevator.SetPosition();
+    elevator.SetPoint();
 
-    //Intake control
-    if(joystick.getRawButton(5)){
-      CoralIntakeMotor.set(0.5);
+    if(joystick.getRawButton(1)&joystick.getPOV()==-1){
+      elevator.SetLevel(Tool.Levels.L1);
     }
-    else{
-      CoralIntakeMotor.set(0);
+    else if(joystick.getRawButton(2)&joystick.getPOV()==-1){
+      elevator.SetLevel(Tool.Levels.L2);
     }
-
-    //Climber control
-    if(joystick.getPOV() == 0){
-      ClimberMotor.set(0.8);
+    else if(joystick.getRawButton(3)&joystick.getPOV()==-1) {
+      elevator.SetLevel(Tool.Levels.L4);
     }
-    else if(joystick.getPOV() == 180) {
-      ClimberMotor.set(-0.8);
+    else if(joystick.getRawButton(4)&joystick.getPOV()==-1) {
+      elevator.SetLevel(Tool.Levels.L3);
+    }
+    if(joystick.getPOV()==180){
+      if(joystick.getRawButton(1)){
+        elevator.SetLevel(Levels.AL1);
+      }
+    }
+    
+    if(joystick.getRawButton(5)) {
+      elevator.SetClawPower(0.5);
+    }
+    else if(joystick.getRawButton(6)) {
+      elevator.SetClawPower(-0.5);
     }
     else {
-      ClimberMotor.set(0);
+      elevator.SetClawPower(0.0);
     }
 
-    //Elevator control
-    if(joystick.getRawButton(1)){
-      elevator.SetTheHeight(0.0);
-
-    }
-    else if(joystick.getRawButton(2)){
-      elevator.SetTheHeight(20.0);
-    }
-    else if(joystick.getRawButton(3)){
-      elevator.SetTheHeight(60);
-    }
-    else if(joystick.getRawButton(4)){
-      elevator.SetTheHeight(45.0);
+    if(joystick.getPOV()==0) {
+      elevator.SetClawPos(5.0);
     }
 
   }
@@ -158,7 +160,7 @@ public class Robot extends TimedRobot {
     double RB_power = Tool.bounding(x+y-turn, 1.0, -1.0); 
     double LB_power = Tool.bounding(y-x+turn, 1.0, -1.0);
 
-    left_front_motor.set(-LF_power);
+    left_front_motor.set(LF_power);
     right_front_motor.set(RF_power);
     right_back_motor.set(-RB_power);
     left_back_motor.set(LB_power);

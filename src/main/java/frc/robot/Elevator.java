@@ -1,11 +1,13 @@
 package frc.robot;
 
+import com.fasterxml.jackson.databind.type.ResolvedRecursiveType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Tool.Levels;
 
 public class Elevator {
@@ -14,76 +16,59 @@ public class Elevator {
     private double height;
     private Claw claw;
 
-    private final double SafeAngle  = 25.0;
-    private final double SafeHeight = 90.0;
+    private final double SafeAngle  = 2.0;
     
     private Tool.Levels m_level;
 
     Elevator() {
 
-        Left  = new SparkMax(5, MotorType.kBrushless);
-        Right = new SparkMax(6, MotorType.kBrushless);
+        Left  = new SparkMax(Constants.ID.Elevator_Left_ID , MotorType.kBrushless);
+        Right = new SparkMax(Constants.ID.Elevator_Right_ID, MotorType.kBrushless);
 
         claw = new Claw();
 
-        Left.configure(Tool.setConfig(true), ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        Right.configure(Tool.setConfig(false), ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        Left.configure(Tool.setElevatorConfig(false), ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        Right.configure(Tool.setElevatorConfig(true), ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         height = 0.0;
-
-    }
-    public void SetPoweer(double power) {
-
-        Left.set(power);
-        Right.set(power);
-
-        return;
-    }
-
-    public void SetTheHeight(double value){
-
-        claw.SetPosition(SafeAngle);
-        height = value;
-
-    }
-
-    public void SetPosition() {
-
-        Left.getClosedLoopController() .setReference(this.height / Constants.Stat.Rotation_Rate, ControlType.kPosition);
-        Right.getClosedLoopController().setReference(this.height / Constants.Stat.Rotation_Rate, ControlType.kPosition);
-
-    }
-
-    public void Setpoint() {
-
-        claw.SetPosition(SafeAngle);
-        
-        height = m_level.GetHeight();
-
-        while(!Tool.IsInRange(height -3.0, this.GetPosition(), height +3.0)) {
-            
-            SetPosition();
-
-        }
-
-        claw.SetPosition(m_level.GetAngle());
-
+        m_level = Levels.L1;
     }
 
     public double GetPosition() {
-
         return (Left.getEncoder().getPosition()+Right.getEncoder().getPosition())/2.0;
-
     }
-    
-    public double GetClawAngle() {
 
-        return this.claw.GetPosition();
+    public void SetPosition(double value) {
+        Right.getClosedLoopController().setReference(value, ControlType.kPosition);
+        Left.getClosedLoopController().setReference(value, ControlType.kPosition);
+        return;
+    }
+
+
+    public void SetPoint() {
+
+        SmartDashboard.putNumber("The_Height", GetPosition());
+        SmartDashboard.putNumber("Where", m_level.GetHeight());
+        if(Tool.IsInRange(GetPosition(), m_level.GetHeight()+3.0, m_level.GetHeight()-3.0)) {
+            claw.SetPosition(m_level.GetAngle());
+        }
+        else {
+            claw.SetPosition(SafeAngle);
+        }
+        SetPosition(m_level.GetHeight());
 
     }
 
     public void SetLevel(Levels l) {
+        claw.SetPosition(SafeAngle);
         m_level = l;
     }
-    
+
+    public void SetClawPower(double power) {
+        claw.SetPower(power);
+    }
+
+    public void SetClawPos(double p) {
+        claw.SetPosition(p);
+    }
 }

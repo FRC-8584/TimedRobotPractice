@@ -2,6 +2,7 @@ package frc.robot;
 
 
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 public class Tool {
     static double deadband ( double a){
@@ -28,19 +29,29 @@ public class Tool {
         return (value>=min&&value<=Max) ? true : false;
     }
 
-    static SparkMaxConfig setConfig(boolean invert) {
+    static SparkMaxConfig setElevatorConfig(boolean invert) {
         SparkMaxConfig theConfig;
         theConfig = new SparkMaxConfig();
-        theConfig.inverted(invert);
+        theConfig.inverted(invert).idleMode(IdleMode.kBrake);
+        theConfig.closedLoop.pid(0.1, 1e-4, 0.4).iZone(0.1);
+        return theConfig;
+    }
+
+    static SparkMaxConfig SetClawConfig(boolean invert) {
+        SparkMaxConfig theConfig;
+        theConfig = new SparkMaxConfig();
+        theConfig.inverted(invert).idleMode(IdleMode.kBrake);
+        theConfig.closedLoop.pid(0.1, 0, 0.6);
         return theConfig;
     }
 
     public static enum Levels{
 
         L1 (0.0, 0.0),
-        L2 (25.0,15.0),
-        L3 (45.0,15.0),
-        L4 (70.0,35.0),
+        AL1(25.0,25.0),
+        L2 (10.5,1.5),
+        L3 (39,1.5),
+        L4 (85,3.5),
         Default(0.0,0.0);
 
         private double ElevatorHeight, ClawAngle;
