@@ -106,6 +106,10 @@ public class Robot extends TimedRobot {
     else if(joystick.getRawButton(6)){
       elevator.SetHeight(75);
     }
+
+    if(joystick.get(2)){
+      Claw.catch_power = true;
+    }
 }
 
   /** This function is called once when the robot is disabled. */
