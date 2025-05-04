@@ -25,6 +25,8 @@ public class Constants {
 
         static final int Claw_Shaft_ID          = 7;
         static final int Claw_Power_Id          = 8;
+
+        static final int Coral_Intake_ID        = 9;
                 
     }
 }

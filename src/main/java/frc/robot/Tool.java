@@ -1,6 +1,7 @@
 package frc.robot;
 
 
+import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
@@ -32,7 +33,7 @@ public class Tool {
     static SparkMaxConfig setElevatorConfig(boolean invert) {
         SparkMaxConfig theConfig;
         theConfig = new SparkMaxConfig();
-        theConfig.inverted(invert).idleMode(IdleMode.kBrake);
+        theConfig.inverted(invert).idleMode(IdleMode.kBrake).closedLoop.outputRange(-0.5, 0.5);
         theConfig.closedLoop.pid(0.1, 1e-4, 0.4).iZone(0.1);
         return theConfig;
     }
@@ -48,9 +49,9 @@ public class Tool {
     public static enum Levels{
 
         L1 (0.0, 0.0),
-        AL1(25.0,25.0),
-        L2 (10.5,1.5),
-        L3 (39,1.5),
+        AL1(25.0,16.0),
+        L2 (10.5,1.8),
+        L3 (39,1.8),
         L4 (85,3.5),
         Default(0.0,0.0);
 

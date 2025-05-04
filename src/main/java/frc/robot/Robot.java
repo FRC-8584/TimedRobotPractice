@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
@@ -26,8 +27,8 @@ public class Robot extends TimedRobot {
   private SparkMax left_back_motor;
   private SparkMax right_front_motor;
   private SparkMax right_back_motor;
-  private SparkMax CoralIntakeMotor;
-  private final SparkMax ClimberMotor;
+  private VictorSPX CoralIntakeMotor;
+
   private final Elevator elevator;
   
   public Robot() {
@@ -37,12 +38,7 @@ public class Robot extends TimedRobot {
     right_back_motor  = new SparkMax(ID.Mecanum_Right_Rear_ID, MotorType.kBrushed);
     left_back_motor   = new SparkMax(ID.Mecanum_Left_Rear_ID, MotorType.kBrushed);
 
-
-    CoralIntakeMotor = new SparkMax(10, MotorType.kBrushed);
-
-    ClimberMotor = new SparkMax(9, MotorType.kBrushless);
-
-    CoralIntakeMotor.configure(Tool.SetClawConfig(true), ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    CoralIntakeMotor = new VictorSPX(9);
 
     elevator = new Elevator();
   }
@@ -88,12 +84,13 @@ public class Robot extends TimedRobot {
     x = joystick.getX();
     y = -joystick.getY();
     turn = -joystick.getRawAxis(4);
+
+    x = Tool.deadband(x);
+    y = Tool.deadband(y);
+    turn = Tool.deadband(turn);
     
     //regular drive
-    move(x, y, turn);
-
-    //ELevator set position
-    elevator.SetPoint();
+    move(x,y,turn);
 
     if(joystick.getRawButton(1)&joystick.getPOV()==-1){
       elevator.SetLevel(Tool.Levels.L1);
@@ -112,21 +109,19 @@ public class Robot extends TimedRobot {
         elevator.SetLevel(Levels.AL1);
       }
     }
+
+    //ELevator set position
+    elevator.SetPoint();
     
     if(joystick.getRawButton(5)) {
-      elevator.SetClawPower(0.5);
+      elevator.SetClawPower(0.3);
     }
     else if(joystick.getRawButton(6)) {
-      elevator.SetClawPower(-0.5);
+      elevator.SetClawPower(-0.3);
     }
     else {
       elevator.SetClawPower(0.0);
     }
-
-    if(joystick.getPOV()==0) {
-      elevator.SetClawPos(5.0);
-    }
-
   }
 
   /** This function is called once when the robot is disabled. */
@@ -154,15 +149,14 @@ public class Robot extends TimedRobot {
   public void simulationPeriodic() {}
 
   private void move(double x, double y, double turn) {
-    
     double LF_power = Tool.bounding(x+y+turn, 1.0, -1.0);
     double RF_power = Tool.bounding(y-x-turn, 1.0, -1.0);
     double RB_power = Tool.bounding(x+y-turn, 1.0, -1.0); 
     double LB_power = Tool.bounding(y-x+turn, 1.0, -1.0);
 
-    left_front_motor.set(LF_power);
-    right_front_motor.set(RF_power);
-    right_back_motor.set(-RB_power);
-    left_back_motor.set(LB_power);
+    left_front_motor.set(LF_power*0.25);
+    right_front_motor.set(RF_power*0.25);
+    right_back_motor.set(RB_power*0.25);
+    left_back_motor.set(LB_power*0.25);
   }
 }

@@ -21,7 +21,6 @@ public class Elevator {
     private Tool.Levels m_level;
 
     Elevator() {
-
         Left  = new SparkMax(Constants.ID.Elevator_Left_ID , MotorType.kBrushless);
         Right = new SparkMax(Constants.ID.Elevator_Right_ID, MotorType.kBrushless);
 
@@ -44,7 +43,6 @@ public class Elevator {
         return;
     }
 
-
     public void SetPoint() {
 
         SmartDashboard.putNumber("The_Height", GetPosition());
@@ -56,7 +54,6 @@ public class Elevator {
             claw.SetPosition(SafeAngle);
         }
         SetPosition(m_level.GetHeight());
-
     }
 
     public void SetLevel(Levels l) {
@@ -71,4 +68,6 @@ public class Elevator {
     public void SetClawPos(double p) {
         claw.SetPosition(p);
     }
+
+    public void ClawForTime(double s){}
 }
