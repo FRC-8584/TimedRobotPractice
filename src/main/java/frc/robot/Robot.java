@@ -21,6 +21,7 @@ public class Robot extends TimedRobot {
   private SparkMax left_back_motor;
   private SparkMax right_front_motor;
   private SparkMax right_back_motor;
+
   private SparkMax climber_motor;
   private SparkMax CoralIntakeMotor;
   private Elevator elevator;
@@ -33,47 +34,25 @@ public class Robot extends TimedRobot {
     right_front_motor = new SparkMax(2, MotorType.kBrushed);
     right_back_motor  = new SparkMax(3, MotorType.kBrushed);
     left_back_motor   = new SparkMax(4, MotorType.kBrushed);
-
-    climber_motor = new SparkMax(7, MotorType.kBrushless);
+    climber_motor = new SparkMax(7, MotorType.kBrushed);  
     CoralIntakeMotor = new SparkMax(10, MotorType.kBrushed);
 
   }
-
-  /**
-   * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
-   * that you want ran during disabled, autonomous, teleoperated and test.
-   *
-   * <p>This runs after the mode specific periodic functions, but before LiveWindow and
-   * SmartDashboard integrated updating.
-   */
   @Override
   public void robotPeriodic() {}
 
-  /**
-   * This autonomous (along with the chooser code above) shows how to select between different
-   * autonomous modes using the dashboard. The sendable chooser code works with the Java
-   * SmartDashboard. If you prefer the LabVIEW Dashboard, remove all of the chooser code and
-   * uncomment the getString line to get the auto name from the text box below the Gyro
-   *
-   * <p>You can add additional auto modes by adding additional comparisons to the switch structure
-   * below with additional strings. If using the SendableChooser make sure to add them to the
-   * chooser code above as well.
-   */
   @Override
   public void autonomousInit() {
   }
 
-  /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
     
   }
 
-  /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() {}
 
-  /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
     double x, y, turn ;
