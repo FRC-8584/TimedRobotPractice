@@ -16,6 +16,7 @@ import frc.robot.Tool.Levels;
  * this project, you must also update the Main.java file in the project.
  */
 public class Robot extends TimedRobot {
+
   private Joystick joystick;
   private SparkMax left_front_motor;
   private SparkMax left_back_motor;
@@ -23,6 +24,7 @@ public class Robot extends TimedRobot {
   private SparkMax right_back_motor;
   private SparkMax CoralIntakeMotor;
   private Elevator elevator;
+  private Claw claw;
   
   public Robot() {
     joystick = new Joystick(0);
@@ -34,6 +36,7 @@ public class Robot extends TimedRobot {
     CoralIntakeMotor = new SparkMax(10, MotorType.kBrushed);
 
     elevator = new Elevator();
+    claw = new Claw();
   }
 
   /**
@@ -108,6 +111,9 @@ public class Robot extends TimedRobot {
     else if(joystick.getRawButton(4)){
       elevator.SetLevel(Levels.L4);
       elevator.SetPoint();
+    }
+    else if(joystick.getRawButton(5)){
+      elevator.claw.SetPower(20);
     }
   }
 
