@@ -18,10 +18,8 @@ public class Claw {
     }
     public void SetAngle(double angle){
         LeftClawMotor.getClosedLoopController().setReference(angle, ControlType.kPosition);
-        RightClawMotor.getClosedLoopController().setReference(angle, ControlType.kPosition);
     }
     public void SetPower(double power){
-        LeftClawMotor.set(power);
         RightClawMotor.set(power);
     }
 }
