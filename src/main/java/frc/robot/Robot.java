@@ -98,22 +98,22 @@ public class Robot extends TimedRobot {
 
     if(joystick.getRawButton(1)){
       elevator.SetLevel(Levels.L1);
-      elevator.SetPoint();
+      elevator.SetPoint(claw);
     }
     else if(joystick.getRawButton(2)){
       elevator.SetLevel(Levels.L2);
-      elevator.SetPoint();
+      elevator.SetPoint(claw);
     }
     else if(joystick.getRawButton(3)){
       elevator.SetLevel(Levels.L3);
-      elevator.SetPoint();
+      elevator.SetPoint(claw);
     }
     else if(joystick.getRawButton(4)){
       elevator.SetLevel(Levels.L4);
-      elevator.SetPoint();
+      elevator.SetPoint(claw);
     }
     else if(joystick.getRawButton(5)){
-      elevator.claw.SetPower(20);
+      claw.SetPower(20);
     }
   }
 
