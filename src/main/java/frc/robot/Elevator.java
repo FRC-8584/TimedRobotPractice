@@ -29,7 +29,7 @@ public class Elevator {
             right_motor.getClosedLoopController().setReference(height/round, ControlType.kPosition);
             current_position = (left_motor.getEncoder().getPosition()+right_motor.getEncoder().getPosition())/2.0;
         }
-        void SetHeight(double height_cm){
+         void SetHeight(double height_cm){
             this.height = height_cm;
         }
     }

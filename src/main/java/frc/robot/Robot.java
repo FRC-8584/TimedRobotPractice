@@ -3,7 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-import javax.print.attribute.SetOfIntegerSyntax;
 
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -27,13 +26,17 @@ public class Robot extends TimedRobot {
   private Elevator elevator;
 
   public Robot() {
+    
     joystick = new Joystick(0);
+
     left_front_motor  = new SparkMax(1, MotorType.kBrushed);
     right_front_motor = new SparkMax(2, MotorType.kBrushed);
     right_back_motor  = new SparkMax(3, MotorType.kBrushed);
     left_back_motor   = new SparkMax(4, MotorType.kBrushed);
+
     climber_motor = new SparkMax(7, MotorType.kBrushless);
     CoralIntakeMotor = new SparkMax(10, MotorType.kBrushed);
+
   }
 
   /**
@@ -99,6 +102,9 @@ public class Robot extends TimedRobot {
     else if(joystick.getRawButton(6)){
       elevator.SetHeight(75);
     }
+    elevator.SetPosition();
+
+    if(joystick.getTriggerPressed()){}
 
     if(joystick.getRawButton(5)){
       CoralIntakeMotor.set(0.5);
