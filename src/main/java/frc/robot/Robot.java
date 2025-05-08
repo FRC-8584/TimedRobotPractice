@@ -113,7 +113,10 @@ public class Robot extends TimedRobot {
       elevator.SetPoint(claw);
     }
     else if(joystick.getRawButton(5)){
-      claw.SetPower(20);
+      claw.SetPower(0.5);
+    }
+    else if(joystick.getRawButton(6)){
+      claw.SetPower(power:-0.5);
     }
   }
 

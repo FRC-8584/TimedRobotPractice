@@ -18,7 +18,7 @@ public class Elevator {
     private final SparkMax LeftElevatorMotor;
     private final SparkMax RightElevatorMotor;
     private double height=0.0;
-    private double SafeAngle=90;
+    private double SafeAngle=25;
     private Tool.Levels TheLevel;
 
     public Elevator(){
@@ -28,11 +28,12 @@ public class Elevator {
       RightElevatorMotor.configure(Tool.SetConfig(false), com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
     public void SetPosition(){
+      height=height/11.43*15;
       LeftElevatorMotor.getClosedLoopController().setReference(height, ControlType.kPosition);
       RightElevatorMotor.getClosedLoopController().setReference(height, ControlType.kPosition);
     }
     public double GetTheHeight(){
-      return (LeftElevatorMotor.getEncoder().getPosition()+RightElevatorMotor.getEncoder().getPosition())/2;
+      return (LeftElevatorMotor.getEncoder().getPosition()+RightElevatorMotor.getEncoder().getPosition())/2.0;
     }
     public void SetPoint(Claw claw){
       height=TheLevel.GetHeight();

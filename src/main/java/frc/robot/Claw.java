@@ -17,6 +17,7 @@ public class Claw {
         RightClawMotor = new SparkMax(8, MotorType.kBrushless);
     }
     public void SetAngle(double angle){
+        angle=angle/360*36;
         LeftClawMotor.getClosedLoopController().setReference(angle, ControlType.kPosition);
     }
     public void SetPower(double power){
