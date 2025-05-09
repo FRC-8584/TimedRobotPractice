@@ -3,10 +3,15 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+import javax.naming.Context;
+
+import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.motorcontrol.Victor;
 
 
 /**
@@ -21,8 +26,9 @@ public class Robot extends TimedRobot {
   private SparkMax right_front_motor;
   private SparkMax right_back_motor;
   private SparkMax climbermotor;
-  private SparkMax CoralIntakeMotor;
+  private VictorSPX CoralIntakeMotor;
   private Elevator elevator;
+  private Claw claw;
 
   public Robot() {
     joystick = new Joystick(0);
@@ -31,7 +37,7 @@ public class Robot extends TimedRobot {
     right_back_motor  = new SparkMax(3, MotorType.kBrushed);
     left_back_motor   = new SparkMax(4, MotorType.kBrushed);
     climbermotor = new SparkMax(7, MotorType.kBrushed); 
-    CoralIntakeMotor = new SparkMax(10, MotorType.kBrushed);
+    CoralIntakeMotor = new VictorSPX(10);
     
   }
 
@@ -67,7 +73,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called once when teleop is enabled. */
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+
+  }
 
   /** This function is called periodically during operator control. */
   @Override
@@ -79,7 +87,8 @@ public class Robot extends TimedRobot {
     move(x, y, turn);
 
     double pov = joystick.getPOV();
-    
+    boolean trigger = joystick.getRawButton(5);
+
     if(pov==0){
       climbermotor.set(0.5);
     }
@@ -90,26 +99,29 @@ public class Robot extends TimedRobot {
       climbermotor.set(0);
     }
 
-    if(joystick.getRawButton(5)){
-      CoralIntakeMotor.set(0.5);
+    if(joystick.getRawButton(1)){
+      CoralIntakeMotor.set(VictorSPXControlMode.PercentOutput, 0.5);
     }
     else{
-      CoralIntakeMotor.set(0);
+      CoralIntakeMotor.set(VictorSPXControlMode.PercentOutput,0);
     }
     
-    if(joystick.getRawButton(7)){
+    if(joystick.getRawButton(3)){
       elevator.SetHeight(16);
+      claw.SetAngle(0);
     }
-    else if(joystick.getRawButton(8)){
+    else if(joystick.getRawButton(4)){
       elevator.SetHeight(37);
+      claw.SetAngle(0);
     }
-    else if(joystick.getRawButton(6)){
+    else if(joystick.getRawButton(2)){
       elevator.SetHeight(75);
+      claw.SetAngle(0);
     }
 
-    if(joystick.get(2)){
-      Claw.catch_power = true;
-    }
+    elevator.ElevatorPower();
+    claw.SetCatch(trigger);
+    
 }
 
   /** This function is called once when the robot is disabled. */

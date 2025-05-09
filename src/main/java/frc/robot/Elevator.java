@@ -11,9 +11,9 @@ public class Elevator {
     private SparkMax left_motor;
     private SparkMax right_motor;
     private SparkMaxConfig config;
-    double current_position;
-    double round = 0.7;
-    double height=0;
+    public double current_position;
+    public double round = 0.7;
+    public double height=0.0;
     
     public Elevator(){
         left_motor = new SparkMax(5, MotorType.kBrushed);
@@ -22,12 +22,13 @@ public class Elevator {
         
         left_motor.configure(config,ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         
-        
-        left_motor.getClosedLoopController().setReference(height/round, ControlType.kPosition);
+    }    
+    public void ElevatorPower(){
+         left_motor.getClosedLoopController().setReference(height/round, ControlType.kPosition);
         right_motor.getClosedLoopController().setReference(height/round, ControlType.kPosition);
         current_position = (left_motor.getEncoder().getPosition()+right_motor.getEncoder().getPosition())/2;
     }
-   void SetHeight(double height_cm){
+    public void SetHeight(double height_cm){
         height = height_cm;
     }
 }
