@@ -1,6 +1,7 @@
 package frc.robot;
 
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.hal.simulation.SpiReadAutoReceiveBufferCallback;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
@@ -26,11 +27,20 @@ public class Tool {
         }       
     }
 
-    static SparkMaxConfig SetConfig(boolean invert){
-        SparkMaxConfig TheConfig;
-        TheConfig = new SparkMaxConfig();
-        TheConfig.inverted(invert);
-        return TheConfig;
+    public static SparkMaxConfig SetElevatorConfig(boolean invert){
+        SparkMaxConfig TheElevatorConfig;
+        TheElevatorConfig = new SparkMaxConfig();
+        TheElevatorConfig.inverted(invert);
+        TheElevatorConfig.closedLoop.pid(0.1, 1e-4, 0.4).iZone(0.1);
+        return TheElevatorConfig;
+    }
+
+    public static SparkMaxConfig SetClawConfig(boolean invert){
+        SparkMaxConfig TheClawConfig;
+        TheClawConfig = new SparkMaxConfig();
+        TheClawConfig.inverted(invert).idleMode(IdleMode.kBrake);
+        TheClawConfig.closedLoop.pid(0.1, 0, 0.6);
+        return TheClawConfig;
     }
     
     public static enum Levels{

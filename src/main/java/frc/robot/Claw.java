@@ -4,8 +4,11 @@
 
 package frc.robot;
 
+import com.fasterxml.jackson.databind.ser.impl.FailingSerializer;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 /** Add your docs here. */
@@ -15,6 +18,8 @@ public class Claw {
     public Claw(){
         LeftClawMotor = new SparkMax(7, MotorType.kBrushless);
         RightClawMotor = new SparkMax(8, MotorType.kBrushless);
+        LeftClawMotor.configure(Tool.SetClawConfig(true), ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        RightClawMotor.configure(Tool.SetClawConfig(false), ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
     public void SetAngle(double angle){
         angle=angle/360*36;

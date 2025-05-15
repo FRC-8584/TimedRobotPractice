@@ -24,8 +24,8 @@ public class Elevator {
     public Elevator(){
       LeftElevatorMotor = new SparkMax(5, MotorType.kBrushless);
       RightElevatorMotor = new SparkMax(6, MotorType.kBrushless);
-      LeftElevatorMotor.configure(Tool.SetConfig(true), com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-      RightElevatorMotor.configure(Tool.SetConfig(false), com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+      LeftElevatorMotor.configure(Tool.SetElevatorConfig(true), com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+      RightElevatorMotor.configure(Tool.SetElevatorConfig(false), com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
     public void SetPosition(){
       height=height/11.43*15;

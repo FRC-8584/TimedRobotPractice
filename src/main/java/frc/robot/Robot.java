@@ -116,7 +116,7 @@ public class Robot extends TimedRobot {
       claw.SetPower(0.5);
     }
     else if(joystick.getRawButton(6)){
-      claw.SetPower(power:-0.5);
+      claw.SetPower(-0.5);
     }
   }
 
