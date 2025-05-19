@@ -1,6 +1,5 @@
 package frc.robot;
 
-import java.io.ObjectInputFilter.Config;
 
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
@@ -14,25 +13,25 @@ public class Elevator {
         private SparkMax left_motor;
         private SparkMax right_motor;
         double height;
-        private SparkMaxConfig config;
+
         public double current_position;
-        
         double round = 0.7;
-       
 
         public Elevator(){
             left_motor = new SparkMax(5, MotorType.kBrushed);
             right_motor = new SparkMax(6, MotorType.kBrushed);
 
-            left_motor.configure(setElevatorConfig(true), null, null);
-            right_motor.configure(setElevatorConfig(false), null, null);
-            this.height = 0;
+            left_motor.configure(setElevatorConfig(false), ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+            right_motor.configure(setElevatorConfig(true), ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+            
+            this.height = 0.0;
         }
 
-        public SparkMaxConfig setElevatorConfig(boolean isLeft) {
+        public SparkMaxConfig setElevatorConfig(boolean isRight) {
+             SparkMaxConfig config;
             config = new SparkMaxConfig();
             config
-                .inverted(isLeft)
+                .inverted(isRight)
                 .idleMode(IdleMode.kBrake).closedLoop
                 .outputRange(-0.5, 0.5);
             config.closedLoop

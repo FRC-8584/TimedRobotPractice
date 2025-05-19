@@ -75,16 +75,31 @@ public class Robot extends TimedRobot {
       climber_motor.set(0);
     }
 
-    if(joystick.getRawButton(7)){
+    if(joystick.getRawButton(2)){
       elevator.SetHeight(16);
+      claw.SetAngle(1.5);
+    
     }
-    else if(joystick.getRawButton(8)){
+    else if(joystick.getRawButton(3)){
       elevator.SetHeight(37);
+      claw.SetAngle(1.5);
+    }
+    else if(joystick.getRawButton(4)){
+      elevator.SetHeight(75);
+      claw.SetAngle(3.5);
+    }
+
+    elevator.SetPosition();
+
+    if(joystick.getRawButton(5)){
+      claw.SetClawPower(0.5);
     }
     else if(joystick.getRawButton(6)){
-      elevator.SetHeight(75);
+      claw.SetClawPower(-0.5);
     }
-    elevator.SetPosition();
+    else{
+      claw.SetClawPower(0);
+    }
 
     if(joystick.getTriggerPressed()){}
 
