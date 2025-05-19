@@ -44,7 +44,7 @@ public class Tool {
     }
     
     public static enum Levels{
-        L1(00,00),
+        L1(0.0,0.0),
         L2(16,15),
         L3(37,15),
         L4(75,55);

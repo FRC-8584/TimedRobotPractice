@@ -15,7 +15,7 @@ public class Elevator {
     private final SparkMax LeftElevatorMotor;
     private final SparkMax RightElevatorMotor;
     private final Claw claw;
-    private double height=0.0;
+    private double height;
     private double SafeAngle;
     private Tool.Levels TheLevel;
 
@@ -25,7 +25,13 @@ public class Elevator {
       claw = new Claw();
       LeftElevatorMotor.configure(Tool.SetElevatorConfig(false), com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
       RightElevatorMotor.configure(Tool.SetElevatorConfig(true), com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+      height=0.0;
+      SafeAngle=25;
+      TheLevel=Tool.Levels.L1;
+
     }
+
+
 
      public void SetPosition(){
       height=height/11.43*15;
