@@ -6,6 +6,7 @@ package frc.robot;
 
 import com.revrobotics.servohub.ServoHub.ResetMode;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
@@ -16,13 +17,14 @@ public class Elevator {
     private final Claw claw;
     private double height=0.0;
     private double SafeAngle;
+    private Tool.Levels TheLevel;
 
     public Elevator(){
       LeftElevatorMotor = new SparkMax(5, MotorType.kBrushless);
       RightElevatorMotor = new SparkMax(6, MotorType.kBrushless);
       claw = new Claw();
-      LeftElevatorMotor.configure(Tool.SetConfig(true), com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-      RightElevatorMotor.configure(Tool.SetConfig(false), com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+      LeftElevatorMotor.configure(Tool.SetElevatorConfig(false), com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+      RightElevatorMotor.configure(Tool.SetElevatorConfig(true), com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
      public void SetPosition(){
@@ -41,7 +43,7 @@ public class Elevator {
         }
       claw.SetAngle(TheLevel.GetAngle());
     }   
-      public void SetLevel(Levels level){
+      public void SetLevel(Tool.Levels level){
         this.TheLevel=level;
       }
   }
