@@ -25,6 +25,7 @@ public class Robot extends TimedRobot {
   private SparkMax climber_motor;
   private SparkMax CoralIntakeMotor;
   private Elevator elevator;
+  private Claw claw;
 
   public Robot() {
     
@@ -36,6 +37,8 @@ public class Robot extends TimedRobot {
     left_back_motor   = new SparkMax(4, MotorType.kBrushed);
     climber_motor = new SparkMax(7, MotorType.kBrushed);  
     CoralIntakeMotor = new SparkMax(10, MotorType.kBrushed);
+    elevator = new Elevator();
+    claw = new Claw();
 
   }
   @Override

@@ -1,29 +1,47 @@
 package frc.robot;
 
+import java.io.ObjectInputFilter.Config;
+
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 public class Elevator {
         private SparkMax left_motor;
         private SparkMax right_motor;
-        private SparkMaxConfig config;
         double height;
+        private SparkMaxConfig config;
         public double current_position;
+        
         double round = 0.7;
+       
 
         public Elevator(){
             left_motor = new SparkMax(5, MotorType.kBrushed);
             right_motor = new SparkMax(6, MotorType.kBrushed);
-            config = new SparkMaxConfig();
+
+            left_motor.configure(setElevatorConfig(true), null, null);
+            right_motor.configure(setElevatorConfig(false), null, null);
             this.height = 0;
-            config.inverted(true);
-            right_motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         }
-        
+
+        public SparkMaxConfig setElevatorConfig(boolean isLeft) {
+            config = new SparkMaxConfig();
+            config
+                .inverted(isLeft)
+                .idleMode(IdleMode.kBrake).closedLoop
+                .outputRange(-0.5, 0.5);
+            config.closedLoop
+                .pid(0.1, 1e-4, 0.4)
+                .iZone(0.1);
+            return config;
+        }
+
+            
         void SetPosition(){
             left_motor.getClosedLoopController().setReference(height/round, ControlType.kPosition);
             right_motor.getClosedLoopController().setReference(height/round, ControlType.kPosition);
@@ -32,5 +50,5 @@ public class Elevator {
          void SetHeight(double height_cm){
             this.height = height_cm;
         }
-    }
-
+    
+}
