@@ -14,20 +14,20 @@ public class Claw {
     public Claw(){
         catch_motor = new SparkMax(9, MotorType.kBrushed);
         angle_motor = new SparkMax(8, MotorType.kBrushed);
-    
-        angle_motor.getClosedLoopController().setReference(angle, ControlType.kPosition);
-
-        
-        if(catch_power = true){
-            catch_motor.set(0);
+      
         }
-        else if(catch_power = false){
+        
+    public void Anglepower(){
+        angle_motor.getClosedLoopController().setReference(angle, ControlType.kPosition);
+            if(catch_power = true){
+            catch_motor.set(0);
+            }
+            else if(catch_power = false){
             catch_motor.set(0.5);
         }
     }
-
     public void SetAngle(double angleunit){
-        angle = angleunit/360;
+        angle = angleunit/10;
     }
 
     public void SetCatch(boolean catchunit){

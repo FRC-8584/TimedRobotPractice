@@ -10,7 +10,8 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 public class Elevator {
     private SparkMax left_motor;
     private SparkMax right_motor;
-    private SparkMaxConfig config;
+    private SparkMaxConfig config1;
+    private SparkMaxConfig config2;
     public double current_position;
     public double round = 0.7;
     public double height=0.0;
@@ -18,9 +19,11 @@ public class Elevator {
     public Elevator(){
         left_motor = new SparkMax(5, MotorType.kBrushed);
         right_motor = new SparkMax(6, MotorType.kBrushed);
-        config = new SparkMaxConfig();
-        
-        left_motor.configure(config,ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        config1 = new SparkMaxConfig();
+        config2 = new SparkMaxConfig();
+
+        left_motor.configure(config1,ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        right_motor.configure(config2,ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         
     }    
     public void ElevatorPower(){
