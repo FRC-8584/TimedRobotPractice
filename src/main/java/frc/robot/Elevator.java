@@ -26,7 +26,7 @@ public class Elevator {
             this.height = 0.0;
         }
 
-        public SparkMaxConfig setElevatorConfig(boolean isRight) {
+        public static SparkMaxConfig setElevatorConfig(boolean isRight) {
              SparkMaxConfig config;
             config = new SparkMaxConfig();
             config

@@ -23,7 +23,7 @@ public class Claw {
         this.angle = 2.0;
     }
 
-    public SparkMaxConfig SetClawConfig(boolean isAngle) {
+    public static SparkMaxConfig SetClawConfig(boolean isAngle) {
         SparkMaxConfig Config;
         Config = new SparkMaxConfig();
         Config
