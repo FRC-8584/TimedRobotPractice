@@ -35,8 +35,8 @@ public class Robot extends TimedRobot {
     right_front_motor = new SparkMax(2, MotorType.kBrushed);
     right_back_motor  = new SparkMax(3, MotorType.kBrushed);
     left_back_motor   = new SparkMax(4, MotorType.kBrushed);
-    climber_motor = new SparkMax(7, MotorType.kBrushed);  
-    CoralIntakeMotor = new SparkMax(10, MotorType.kBrushed);
+    climber_motor = new SparkMax(10, MotorType.kBrushed);  
+    CoralIntakeMotor = new SparkMax(9, MotorType.kBrushed);
     elevator = new Elevator();
     claw = new Claw();
 
@@ -75,16 +75,19 @@ public class Robot extends TimedRobot {
       climber_motor.set(0);
     }
 
-    if(joystick.getRawButton(2)){
-      elevator.SetHeight(16);
-      claw.SetAngle(1.5);
-    
+    if(joystick.getRawButton(1)){
+      elevator.SetHeight(0.0);
+      claw.SetAngle(0.0);
     }
-    else if(joystick.getRawButton(3)){
-      elevator.SetHeight(37);
+    else if(joystick.getRawButton(2)){
+      elevator.SetHeight(16);
       claw.SetAngle(1.5);
     }
     else if(joystick.getRawButton(4)){
+      elevator.SetHeight(37);
+      claw.SetAngle(1.5);
+    }
+    else if(joystick.getRawButton(3)){
       elevator.SetHeight(75);
       claw.SetAngle(3.5);
     }
