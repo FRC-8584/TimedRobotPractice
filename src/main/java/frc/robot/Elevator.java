@@ -13,7 +13,6 @@ public class Elevator {
         private SparkMax left_motor;
         private SparkMax right_motor;
         double height;
-
         public double current_position;
         double round = 0.7;
 
