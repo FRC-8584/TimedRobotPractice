@@ -3,8 +3,6 @@ package frc.robot;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
-import edu.wpi.first.hal.simulation.SpiReadAutoReceiveBufferCallback;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
 public class Tool {
     static double deadband ( double a){

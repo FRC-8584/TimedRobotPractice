@@ -3,10 +3,13 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.motorcontrol.Victor;
 import frc.robot.Tool.Levels;
 
 
@@ -22,7 +25,7 @@ public class Robot extends TimedRobot {
   private SparkMax left_back_motor;
   private SparkMax right_front_motor;
   private SparkMax right_back_motor;
-  private SparkMax CoralIntakeMotor;
+  private VictorSPX CoralIntakeMotor;
   private Elevator elevator;
   private Claw claw;
   
@@ -33,10 +36,12 @@ public class Robot extends TimedRobot {
     right_back_motor  = new SparkMax(3, MotorType.kBrushed);
     left_back_motor   = new SparkMax(4, MotorType.kBrushed);
 
-    CoralIntakeMotor = new SparkMax(10, MotorType.kBrushed);
+    CoralIntakeMotor = new VictorSPX(10);
 
     elevator = new Elevator();
+
     claw = new Claw();
+    
   }
 
   /**
@@ -83,10 +88,10 @@ public class Robot extends TimedRobot {
     move(x, y, turn);
 
     if(joystick.getRawButton(5)){
-      CoralIntakeMotor.set(0.5);
+      CoralIntakeMotor.set(VictorSPXControlMode.Velocity, 0.5);
     }
     else{
-      CoralIntakeMotor.set(0);
+      CoralIntakeMotor.set(VictorSPXControlMode.Velocity,0.0);
     }
 
     if(joystick.getRawButton(1)){
@@ -94,23 +99,19 @@ public class Robot extends TimedRobot {
     }
 
 
-    elevator.SetPosition();
+    elevator.SetPoint();
 
     if(joystick.getRawButton(1)){
       elevator.SetLevel(Levels.L1);
-      elevator.SetPoint(claw);
     }
     else if(joystick.getRawButton(2)){
       elevator.SetLevel(Levels.L2);
-      elevator.SetPoint(claw);
     }
     else if(joystick.getRawButton(3)){
       elevator.SetLevel(Levels.L3);
-      elevator.SetPoint(claw);
     }
     else if(joystick.getRawButton(4)){
       elevator.SetLevel(Levels.L4);
-      elevator.SetPoint(claw);
     }
     else if(joystick.getRawButton(5)){
       claw.SetPower(0.5);

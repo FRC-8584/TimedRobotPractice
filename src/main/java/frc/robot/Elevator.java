@@ -41,12 +41,12 @@ public class Elevator {
     public double GetTheHeight(){
       return (LeftElevatorMotor.getEncoder().getPosition()+RightElevatorMotor.getEncoder().getPosition())/2.0;
     }
-    public void SetPoint(Claw claw){
-      claw.SetAngle(SafeAngle);
+    public void SetPoint(){
       if(Tool.IsInRange(GetTheHeight(),TheLevel.GetHeight())==false){
         height=TheLevel.GetHeight();
-        SetPosition();
+        claw.SetAngle(SafeAngle);
         }
+      SetPosition();
       claw.SetAngle(TheLevel.GetAngle());
     }   
       public void SetLevel(Tool.Levels level){
