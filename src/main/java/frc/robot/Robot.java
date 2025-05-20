@@ -81,15 +81,15 @@ public class Robot extends TimedRobot {
     }
     else if(joystick.getRawButton(2)){
       elevator.SetHeight(16);
-      claw.SetAngle(1.5);
+      claw.SetAngle(15);
     }
     else if(joystick.getRawButton(4)){
       elevator.SetHeight(37);
-      claw.SetAngle(1.5);
+      claw.SetAngle(15);
     }
     else if(joystick.getRawButton(3)){
       elevator.SetHeight(75);
-      claw.SetAngle(3.5);
+      claw.SetAngle(55);
     }
 
     elevator.SetPosition();
