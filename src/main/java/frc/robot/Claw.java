@@ -20,7 +20,7 @@ public class Claw {
     
         angle_motor.configure(SetClawConfig(true), ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         grab_motor.configure(SetClawConfig(false), ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        this.angle = 2.0;
+        this.angle = 20;
     }
 
     public static SparkMaxConfig SetClawConfig(boolean isAngle) {
